@@ -8,7 +8,7 @@ sealed class Chapter with _$Chapter {
   const factory Chapter({
     int? id,
     @JsonKey(name: 'subject_id') required int subjectId,
-    @JsonKey(name: 'chapter_number') required String chapterNumber,
+    @JsonKey(name: 'chapter_number') required int chapterNumber,
     required String name,
   }) = _Chapter;
 

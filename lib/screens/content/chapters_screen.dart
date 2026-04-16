@@ -19,13 +19,14 @@ class ChaptersPage extends ConsumerWidget {
             Text(subject.name),
             Text(
               'Chapters',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(),
             ),
           ],
         ),
       ),
       body: chaptersAsync.when(
         data: (chapters) {
+          final sortedChapters = [...chapters]..sort((a, b) => a.chapterNumber.compareTo(b.chapterNumber));
           if (chapters.isEmpty) {
             return const Center(child: Text('No chapters found.'));
           }
@@ -35,7 +36,7 @@ class ChaptersPage extends ConsumerWidget {
             separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) => ChapterCard(
               subject: subject,
-              chapter: chapters[index],
+              chapter: sortedChapters[index],
               index: index,
             ),
           );

@@ -39,8 +39,8 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-/// Listens to [authStateProvider] and routes to the correct screen.
-/// Checks the synchronous session during loading to avoid a flicker.
+/// The `AuthGate` class is a Flutter widget that conditionally displays either a `TabWidgetTree` or a
+/// `LoginPage` based on the authentication state, handling data loading and error cases.
 class AuthGate extends ConsumerWidget {
   const AuthGate({super.key});
 

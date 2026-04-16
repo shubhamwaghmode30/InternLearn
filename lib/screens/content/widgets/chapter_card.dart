@@ -24,7 +24,7 @@ class ChapterCard extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           child: Text(
-            chapter.chapterNumber,
+            chapter.chapterNumber.toString(),
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimaryContainer,
               fontWeight: FontWeight.bold,
