@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:interactive_learn/core/providers/content_provider.dart';
+import 'package:interactive_learn/core/widgets/loading_skeletons.dart';
 import 'package:interactive_learn/screens/content/widgets/subject_card.dart';
 
 class SubjectsScreen extends ConsumerWidget {
@@ -24,7 +25,7 @@ class SubjectsScreen extends ConsumerWidget {
                 SubjectCard(subject: subjects[index]),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const AppListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),
       ),
     );

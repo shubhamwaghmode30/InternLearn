@@ -15,4 +15,14 @@ class ChapterService {
       return [];
     }
   }
+
+  static Future<List<Chapter>> fetchAllChapters() async {
+    try {
+      final response = await supabase.from("chapter").select();
+      return response.map((json) => Chapter.fromJson(json)).toList();
+    } catch (e) {
+      logger.e("Failed to fetch all chapters: $e");
+      return [];
+    }
+  }
 }

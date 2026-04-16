@@ -9,6 +9,7 @@ sealed class Chapter with _$Chapter {
     int? id,
     @JsonKey(name: 'subject_id') required int subjectId,
     @JsonKey(name: 'chapter_number') required int chapterNumber,
+    @JsonKey(name: 'xp_reward') @Default(0) int xpReward,
     required String name,
   }) = _Chapter;
 

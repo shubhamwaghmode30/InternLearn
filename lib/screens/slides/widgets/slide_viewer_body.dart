@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:interactive_learn/core/models/slide.dart';
 import 'package:interactive_learn/core/models/slide_match.dart';
 import 'package:interactive_learn/core/models/slide_mcq.dart';
+import 'package:interactive_learn/core/providers/progress_provider.dart';
 import 'package:interactive_learn/core/providers/slide_provider.dart';
-import 'package:interactive_learn/core/singleton.dart';
 import 'package:interactive_learn/screens/slides/widgets/content_slide.dart';
 import 'package:interactive_learn/screens/slides/widgets/match_slide.dart';
 import 'package:interactive_learn/screens/slides/widgets/mcq_slide.dart';
@@ -36,11 +37,17 @@ final class _MatchEntry extends _SlideEntry {
 }
 
 
-class SlideViewerBody extends HookWidget {
+class SlideViewerBody extends HookConsumerWidget {
   final SlidesForSubtopic data;
   final String title;
+  final int subtopicId;
 
-  const SlideViewerBody({super.key,required this.data, required this.title});
+  const SlideViewerBody({
+    super.key,
+    required this.data,
+    required this.title,
+    required this.subtopicId,
+  });
 
   List<_SlideEntry> _buildEntries() {
     return <_SlideEntry>[
@@ -51,10 +58,11 @@ class SlideViewerBody extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final entries = useMemoized(_buildEntries, const []);
     final pageController = usePageController();
     final pageIndex = useState(0);
+    final isFinishing = useState(false);
     // Tracks which indices have been completed (MCQ answered, Match finished)
     final completedSet = useState(<int>{});
 
@@ -176,15 +184,47 @@ class SlideViewerBody extends HookWidget {
                   onPressed: canProceed(pageIndex.value)
                       ? () {
                           if (isLast) {
-                            logger.d("Last Page Reached");
-                            Navigator.pop(context);
+                            if (isFinishing.value) return;
+                            isFinishing.value = true;
+                            ref
+                                .read(progressActionsProvider.notifier)
+                                .completeSubtopic(subtopicId)
+                                .then((result) {
+                                  if (!context.mounted) return;
+
+                                  final rewards = <String>[];
+                                  if (result.subtopicCompleted) {
+                                    rewards.add('Subtopic complete');
+                                  }
+                                  if (result.topicCompleted) {
+                                    rewards.add('Topic unlocked');
+                                  }
+                                  if (result.chapterCompleted) {
+                                    rewards.add('Chapter conquered');
+                                  }
+
+                                  final gained = result.gainedXp;
+                                  final msg = gained > 0
+                                      ? 'You earned +$gained XP${rewards.isNotEmpty ? ' • ${rewards.join(' • ')}' : ''}'
+                                      : 'Already completed earlier. Keep practicing!';
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(msg)),
+                                  );
+                                  Navigator.pop(context);
+                                })
+                                .whenComplete(() => isFinishing.value = false);
                           } else {
                             goTo(pageIndex.value + 1);
                           }
                         }
                       : null,
                   icon: Icon(isLast ? Icons.emoji_events : Icons.arrow_forward, size: 18),
-                  label: Text(isLast ? 'Finish' : 'Next'),
+                  label: Text(
+                    isLast
+                        ? (isFinishing.value ? 'Saving...' : 'Finish')
+                        : 'Next',
+                  ),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),

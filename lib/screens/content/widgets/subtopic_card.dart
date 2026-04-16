@@ -5,60 +5,25 @@ import 'package:interactive_learn/screens/slides/slide_viewer_screen.dart';
 class SubtopicCard extends StatelessWidget {
   final Subtopic subtopic;
   final int index;
-  const SubtopicCard({super.key,required this.subtopic, required this.index});
+  final bool isCompleted;
+  const SubtopicCard({
+    super.key,
+    required this.subtopic,
+    required this.index,
+    this.isCompleted = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 10,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-          child: Text(
-            '${index + 1}',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onTertiaryContainer,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        title: Text(
-          subtopic.title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-        ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.play_circle_outline,
-                size: 18,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                'Start',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
-                ),
-              ),
-            ],
-          ),
-        ),
+    final theme = Theme.of(context);
+    final laneColor = index.isEven
+        ? theme.colorScheme.tertiary
+        : theme.colorScheme.primary;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
         onTap: () {
           Navigator.push(
             context,
@@ -70,6 +35,153 @@ class SubtopicCard extends StatelessWidget {
             ),
           );
         },
+        child: Ink(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: laneColor.withValues(alpha: 0.28)),
+            color: theme.colorScheme.surface,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: laneColor.withValues(alpha: 0.15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(
+                          color: laneColor,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      subtopic.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  if (isCompleted)
+                    const Icon(
+                      Icons.check_circle_rounded,
+                      color: Colors.green,
+                    ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _chip(
+                    context,
+                    icon: Icons.whatshot_rounded,
+                    label: '+${subtopic.xpReward > 0 ? subtopic.xpReward : 12 + index} XP',
+                    color: Colors.deepOrange,
+                  ),
+                  _chip(
+                    context,
+                    icon: Icons.schedule_rounded,
+                    label: '${4 + (index % 3)} min',
+                    color: laneColor,
+                  ),
+                  _chip(
+                    context,
+                    icon: Icons.star_rounded,
+                    label: 'Challenge',
+                    color: Colors.amber.shade800,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: LinearProgressIndicator(
+                      value: isCompleted ? 1 : 0,
+                      minHeight: 7,
+                      borderRadius: BorderRadius.circular(999),
+                      backgroundColor: laneColor.withValues(alpha: 0.15),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isCompleted ? Colors.green : laneColor,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          isCompleted
+                              ? Icons.replay_rounded
+                              : Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          isCompleted ? 'Revise' : 'Start',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _chip(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 13, color: color),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:interactive_learn/core/providers/auth_provider.dart';
 import 'package:interactive_learn/core/providers/content_provider.dart';
+import 'package:interactive_learn/core/widgets/loading_skeletons.dart';
 import 'package:interactive_learn/screens/content/subjects_screen.dart';
 import 'package:interactive_learn/screens/tabs/widgets/subject_grid.dart';
 
@@ -80,10 +81,7 @@ class HomeScreen extends ConsumerWidget {
                     child: Center(child: Text('No subjects available yet.')),
                   )
                 : SubjectGrid(subjects: subjects),
-            loading: () => const Padding(
-              padding: EdgeInsets.symmetric(vertical: 40),
-              child: Center(child: CircularProgressIndicator()),
-            ),
+            loading: () => const HomeSkeleton(),
             error: (e, _) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Text('Failed to load subjects: $e',

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:interactive_learn/core/providers/auth_provider.dart';
 import 'package:interactive_learn/core/providers/theme_provider.dart';
 import 'package:interactive_learn/core/singleton.dart';
+import 'package:interactive_learn/core/widgets/loading_skeletons.dart';
 import 'package:interactive_learn/screens/auth/login.dart';
 import 'package:interactive_learn/screens/tab_widget_tree.dart';
 import 'package:interactive_learn/theme.dart';
@@ -55,7 +56,7 @@ class AuthGate extends ConsumerWidget {
       loading: () {
         // Use synchronous session to avoid a white flash on re-launch
         if (supabase.auth.currentSession != null) return const TabWidgetTree();
-        return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        return const Scaffold(body: SafeArea(child: AppListSkeleton(itemCount: 5)));
       },
       error: (_, _) => const LoginPage(),
     );

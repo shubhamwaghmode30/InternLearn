@@ -8,6 +8,7 @@ sealed class Topic with _$Topic {
   const factory Topic({
     required int id,
     @JsonKey(name: 'chapter_id') required int chapterId,
+    @JsonKey(name: 'xp_reward') @Default(0) int xpReward,
     required String title,
   }) = _Topic;
 

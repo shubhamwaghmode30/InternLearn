@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:interactive_learn/core/providers/slide_provider.dart';
+import 'package:interactive_learn/core/widgets/loading_skeletons.dart';
 import 'package:interactive_learn/screens/slides/widgets/slide_viewer_body.dart';
 
 
@@ -21,7 +22,7 @@ class SlideViewerScreen extends HookConsumerWidget {
     return slidesAsync.when(
       loading: () => Scaffold(
         appBar: AppBar(title: Text(subtopicTitle)),
-        body: const Center(child: CircularProgressIndicator()),
+        body: const AppListSkeleton(itemCount: 7),
       ),
       error: (e, _) => Scaffold(
         appBar: AppBar(title: Text(subtopicTitle)),
@@ -41,7 +42,11 @@ class SlideViewerScreen extends HookConsumerWidget {
           ),
         ),
       ),
-      data: (data) => SlideViewerBody(data: data, title: subtopicTitle),
+      data: (data) => SlideViewerBody(
+        data: data,
+        title: subtopicTitle,
+        subtopicId: subtopicId,
+      ),
     );
   }
 }

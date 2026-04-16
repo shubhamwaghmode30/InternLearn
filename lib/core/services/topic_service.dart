@@ -15,4 +15,14 @@ class TopicService {
       return [];
     }
   }
+
+  static Future<List<Topic>> fetchAllTopics() async {
+    try {
+      final response = await supabase.from("topic").select();
+      return response.map((json) => Topic.fromJson(json)).toList();
+    } catch (e) {
+      logger.e("Failed to fetch all topics: $e");
+      return [];
+    }
+  }
 }

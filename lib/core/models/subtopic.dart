@@ -9,6 +9,7 @@ sealed class Subtopic with _$Subtopic {
     required int id,
     required String title,
     @JsonKey(name: 'topic_id') required int topicId,
+    @JsonKey(name: 'xp_reward') @Default(0) int xpReward,
     @JsonKey(name: 'order') int? order,
   }) = _Subtopic;
 
