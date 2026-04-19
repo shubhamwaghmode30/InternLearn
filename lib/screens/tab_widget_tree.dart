@@ -5,18 +5,22 @@ import 'package:interactive_learn/screens/tabs/home_screen.dart';
 import 'package:interactive_learn/screens/tabs/profile_screen.dart';
 import 'package:interactive_learn/screens/tabs/search_screen.dart';
 import 'package:interactive_learn/screens/tabs/progress_screen.dart';
+import 'package:interactive_learn/screens/tabs/leaderboard_screen.dart'; // 1. Imported your new screen
 
 class TabWidgetTree extends HookWidget {
   const TabWidgetTree({super.key});
 
+  // 2. Added the screen to the pages list
   static const _pages = [
     HomeScreen(),
     SearchScreen(),
-    ProfileScreen(),
+    LeaderboardScreen(), // Leaderboard placed in the middle
     ProgressScreen(),
+    ProfileScreen(),     // Profile moved to the end
   ];
 
-  static const _titles = ['Home', 'Search', 'Profile', 'Progress'];
+  // 3. Added the title to match the pages
+  static const _titles = ['Home', 'Search', 'Leaderboard', 'Progress', 'Profile'];
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +61,20 @@ class TabWidgetTree extends HookWidget {
             activeIcon: Icons.search,
             title: 'Search',
           ),
-          TabItem(
-            icon: Icons.person_outline,
-            activeIcon: Icons.person,
-            title: 'Profile',
+          TabItem( // 4. Added the Trophy icon for the Leaderboard
+            icon: Icons.emoji_events_outlined,
+            activeIcon: Icons.emoji_events,
+            title: 'Leaderboard',
           ),
           TabItem(
             icon: Icons.show_chart,
             activeIcon: Icons.stacked_line_chart,
             title: 'Progress',
+          ),
+          TabItem(
+            icon: Icons.person_outline,
+            activeIcon: Icons.person,
+            title: 'Profile',
           ),
         ],
       ),
