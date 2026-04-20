@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:interactive_learn/core/providers/leaderboard_provider.dart';
+import 'package:interactive_learn/features/leaderboard/data/riverpod/leaderboard_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class LeaderboardScreen extends HookConsumerWidget {
