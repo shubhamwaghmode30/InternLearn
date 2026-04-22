@@ -3,22 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:nexus/core/routes/models/nav_payloads.dart';
 import 'package:nexus/features/content/data/models/subject.dart';
 import 'package:nexus/features/content/presentation/screens/chapters_screen.dart';
-import 'package:nexus/features/content/presentation/screens/subjects_screen.dart';
 import 'package:nexus/features/content/presentation/screens/subtopics_screen.dart';
 import 'package:nexus/features/content/presentation/screens/topics_screen.dart';
-import 'package:nexus/features/content/presentation/slides/slide_viewer_screen.dart';
+import 'package:nexus/features/content/presentation/screens/slide_viewer_screen.dart';
 
 part 'content_routes.g.dart';
 
-@TypedGoRoute<SubjectsRoute>(path: '/subjects')
-class SubjectsRoute extends GoRouteData with $SubjectsRoute {
-  const SubjectsRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SubjectsScreen();
-  }
-}
 
 @TypedGoRoute<ChaptersRoute>(path: '/chapters')
 class ChaptersRoute extends GoRouteData with $ChaptersRoute {

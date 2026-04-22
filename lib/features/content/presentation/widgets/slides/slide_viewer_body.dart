@@ -5,12 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nexus/features/content/data/models/slides/slide.dart';
 import 'package:nexus/features/content/data/models/slides/slide_match.dart';
 import 'package:nexus/features/content/data/models/slides/slide_mcq.dart';
-import 'package:nexus/features/progress/data/riverpod/progress_provider.dart';
+import 'package:nexus/features/content/data/riverpod/progress_provider.dart';
 import 'package:nexus/features/content/data/riverpod/slide_provider.dart';
-import 'package:nexus/features/content/presentation/slides/widgets/content_slide.dart';
-import 'package:nexus/features/content/presentation/slides/widgets/match_slide.dart';
-import 'package:nexus/features/content/presentation/slides/widgets/mcq_slide.dart';
-import 'package:nexus/features/content/presentation/slides/widgets/segmented_progress.dart';
+import 'package:nexus/features/content/presentation/widgets/slides/content_slide.dart';
+import 'package:nexus/features/content/presentation/widgets/slides/match_slide.dart';
+import 'package:nexus/features/content/presentation/widgets/slides/mcq_slide.dart';
+import 'package:nexus/features/content/presentation/widgets/slides/segmented_progress.dart';
 
 sealed class _SlideEntry {
   int get order;
@@ -63,7 +63,6 @@ class SlideViewerBody extends HookConsumerWidget {
     final pageController = usePageController();
     final pageIndex = useState(0);
     final isFinishing = useState(false);
-    // Tracks which indices have been completed (MCQ answered, Match finished)
     final completedSet = useState(<int>{});
 
     if (entries.isEmpty) {
@@ -110,9 +109,8 @@ class SlideViewerBody extends HookConsumerWidget {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () async {
-            // final leave = await confirmQuit();
-            // if (leave && context.mounted) context.pop();
+          onPressed: () {
+            context.pop();
           },
         ),
         title: Text(title),
@@ -132,17 +130,20 @@ class SlideViewerBody extends HookConsumerWidget {
         itemBuilder: (context, i) {
           final entry = entries[i];
           if (entry is _ContentEntry) {
+
             return ContentSlideWidget(
               key: ValueKey('c_$i'),
               slide: entry.slide,
             );
           } else if (entry is _McqEntry) {
+
             return McqSlideWidget(
               key: ValueKey('mcq_$i'),
               mcq: entry.mcq,
               onCompleted: () => markComplete(i),
             );
           } else if (entry is _MatchEntry) {
+
             return MatchSlideWidget(
               key: ValueKey('match_$i'),
               match: entry.match,
@@ -175,7 +176,6 @@ class SlideViewerBody extends HookConsumerWidget {
 
               const Spacer(),
 
-              // Slide counter
               Text(
                 '${pageIndex.value + 1} / ${entries.length}',
                 style: Theme.of(
@@ -187,44 +187,22 @@ class SlideViewerBody extends HookConsumerWidget {
 
               // Next / Finish button
               ElevatedButton.icon(
-                onPressed: canProceed(pageIndex.value)
-                    ? () {
-                        if (isLast) {
-                          if (isFinishing.value) return;
-                          isFinishing.value = true;
-                          ref
-                              .read(progressActionsProvider.notifier)
-                              .completeSubtopic(subtopicId)
-                              .then((result) {
-                                if (!context.mounted) return;
-
-                                final rewards = <String>[];
-                                if (result.subtopicCompleted) {
-                                  rewards.add('Subtopic complete');
-                                }
-                                if (result.topicCompleted) {
-                                  rewards.add('Topic unlocked');
-                                }
-                                if (result.chapterCompleted) {
-                                  rewards.add('Chapter conquered');
-                                }
-
-                                final gained = result.gainedXp;
-                                final msg = gained > 0
-                                    ? 'You earned +$gained XP${rewards.isNotEmpty ? ' • ${rewards.join(' • ')}' : ''}'
-                                    : 'Already completed earlier. Keep practicing!';
-
-                                ScaffoldMessenger.of(
-                                  context,
-                                ).showSnackBar(SnackBar(content: Text(msg)));
-                                context.pop();
-                              })
-                              .whenComplete(() => isFinishing.value = false);
-                        } else {
-                          goTo(pageIndex.value + 1);
-                        }
-                      }
-                    : null,
+                onPressed: () {
+                  bool canGo = canProceed(pageIndex.value);
+                  if (!canGo) return;
+                  if (isLast) {
+                    if (isFinishing.value) return;
+                    isFinishing.value = true;
+                    // if ()
+                    _completeSubtopic(
+                      context,
+                      ref,
+                      () => isFinishing.value = false,
+                    );
+                  } else {
+                    goTo(pageIndex.value + 1);
+                  }
+                },
                 icon: Icon(
                   isLast ? Icons.emoji_events : Icons.arrow_forward,
                   size: 18,
@@ -246,5 +224,40 @@ class SlideViewerBody extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _completeSubtopic(
+    BuildContext context,
+    WidgetRef ref,
+     VoidCallback onFinish,
+  ) {
+    ref
+        .read(progressActionsProvider.notifier)
+        .completeSubtopic(subtopicId)
+        .then((result) {
+          if (!context.mounted) return;
+
+          final rewards = <String>[];
+          if (result.subtopicCompleted) {
+            rewards.add('Subtopic complete');
+          }
+          if (result.topicCompleted) {
+            rewards.add('Topic unlocked');
+          }
+          if (result.chapterCompleted) {
+            rewards.add('Chapter conquered');
+          }
+
+          final gained = result.gainedXp;
+          final msg = gained > 0
+              ? 'You earned +$gained XP${rewards.isNotEmpty ? ' • ${rewards.join(' • ')}' : ''}'
+              : 'Already completed earlier. Keep practicing!';
+
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(msg)));
+          context.pop();
+        })
+        .whenComplete(onFinish);
   }
 }

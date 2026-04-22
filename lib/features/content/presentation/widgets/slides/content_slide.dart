@@ -37,7 +37,9 @@ class ContentSlideWidget extends StatelessWidget {
           // Title
           Text(
             slide.title,
-            style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 20),
 
@@ -46,7 +48,9 @@ class ContentSlideWidget extends StatelessWidget {
             Card(
               elevation: 0,
               color: theme.colorScheme.surfaceContainerLow,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: MarkdownBody(
@@ -54,18 +58,28 @@ class ContentSlideWidget extends StatelessWidget {
                   selectable: true,
                   styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
                     p: theme.textTheme.bodyLarge?.copyWith(height: 1.6),
-                    h1: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-                    h2: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-                    h3: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                    h1: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    h2: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    h3: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                     code: theme.textTheme.bodyMedium?.copyWith(
                       fontFamily: 'monospace',
-                      backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                      backgroundColor:
+                          theme.colorScheme.surfaceContainerHighest,
                     ),
                     blockquoteDecoration: BoxDecoration(
                       border: Border(
-                        left: BorderSide(color: theme.colorScheme.primary, width: 4),
+                        left: BorderSide(
+                          color: theme.colorScheme.primary,
+                          width: 4,
+                        ),
                       ),
-                      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                      color: theme.colorScheme.primaryContainer.withAlpha(77),
                     ),
                   ),
                 ),
@@ -75,24 +89,38 @@ class ContentSlideWidget extends StatelessWidget {
           // Key points
           if (slide.keyPoints.isNotEmpty) ...[
             const SizedBox(height: 28),
+
             Row(
               children: [
-                Icon(Icons.lightbulb, color: Colors.amber.shade600, size: 20),
+                Icon(
+                  Icons.lightbulb,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Key Points',
-                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
+
             const SizedBox(height: 12),
+
             Container(
               decoration: BoxDecoration(
-                color: Colors.amber.shade50,
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.amber.shade200),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.secondary.withAlpha(100),
+                ),
               ),
               padding: const EdgeInsets.all(14),
+
               child: Column(
                 children: slide.keyPoints.map((point) {
                   return Padding(
@@ -100,12 +128,21 @@ class ContentSlideWidget extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.arrow_right, size: 20, color: Colors.amber.shade700),
+                        Icon(
+                          Icons.arrow_right,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             point,
-                            style: theme.textTheme.bodyMedium?.copyWith(height: 1.4),
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              height: 1.4,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSecondaryContainer,
+                            ),
                           ),
                         ),
                       ],

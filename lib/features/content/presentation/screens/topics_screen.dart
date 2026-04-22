@@ -24,7 +24,7 @@ class TopicsScreen extends ConsumerWidget {
             Text(chapter.name),
             Text(
               '${subject.name} • Topic Run',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),

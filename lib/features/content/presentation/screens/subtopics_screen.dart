@@ -31,7 +31,7 @@ class SubtopicsScreen extends ConsumerWidget {
             Text(topic.title),
             Text(
               '${subject.name} • ${chapter.name}',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),

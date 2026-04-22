@@ -27,7 +27,6 @@ final GoRouter appRouter = GoRouter(
     ),
     $loginRoute,
     $signupRoute,
-    $subjectsRoute,
     $chaptersRoute,
     $topicsRoute,
     $subtopicsRoute,

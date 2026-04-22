@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class SegmentedProgress extends StatelessWidget {
@@ -16,17 +14,21 @@ class SegmentedProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
       child: Row(
         children: List.generate(total, (i) {
           final isDone = completed.contains(i) || i < current;
           final isCurrent = i == current;
+
           final color = isDone
-              ? Colors.white
+              ? colors.primary
               : isCurrent
-                  ? Colors.white.withValues(alpha: 0.55)
-                  : Colors.white.withValues(alpha: 0.25);
+                  ? colors.primary.withOpacity(0.5)
+                  : colors.onSurfaceVariant.withOpacity(0.25);
 
           return Expanded(
             child: AnimatedContainer(

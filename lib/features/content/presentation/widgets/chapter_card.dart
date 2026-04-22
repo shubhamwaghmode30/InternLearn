@@ -86,7 +86,7 @@ class ChapterCard extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: badgeColor.withValues(alpha: 0.14),
-                            borderRadius: BorderRadius.circular(999),
+                            borderRadius: BorderRadius.circular(100),
                           ),
                           child: Text(
                             'Level ${index + 1}',
@@ -106,7 +106,7 @@ class ChapterCard extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: Colors.green.withValues(alpha: 0.14),
-                              borderRadius: BorderRadius.circular(999),
+                              borderRadius: BorderRadius.circular(100),
                             ),
                             child: const Text(
                               'Completed',

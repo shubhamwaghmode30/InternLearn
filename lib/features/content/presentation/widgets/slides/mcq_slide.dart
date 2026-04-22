@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-// import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:nexus/features/content/data/models/slides/slide_mcq.dart';
 
@@ -22,6 +21,7 @@ class McqSlideWidget extends HookWidget {
     final selected = useState<String?>(null);
     final hasAnswered = useState(false);
     final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
     final options = [mcq.optionA, mcq.optionB, mcq.optionC, mcq.optionD];
 
@@ -33,28 +33,30 @@ class McqSlideWidget extends HookWidget {
     }
 
     Color cardColor(String key) {
-      if (!hasAnswered.value) return theme.colorScheme.surface;
-      if (key == mcq.correctOption) return Colors.green.shade50;
-      if (key == selected.value) return Colors.red.shade50;
-      return theme.colorScheme.surface;
+      if (!hasAnswered.value) return colors.surface;
+      if (key == mcq.correctOption) return colors.tertiaryContainer;
+      if (key == selected.value) return colors.errorContainer;
+      return colors.surface;
     }
 
     Color borderColor(String key) {
       if (!hasAnswered.value) {
-        return selected.value == key ? theme.colorScheme.primary : theme.colorScheme.outlineVariant;
+        return selected.value == key
+            ? colors.primary
+            : colors.outlineVariant;
       }
-      if (key == mcq.correctOption) return Colors.green;
-      if (key == selected.value) return Colors.red;
-      return theme.colorScheme.outlineVariant;
+      if (key == mcq.correctOption) return colors.tertiary;
+      if (key == selected.value) return colors.error;
+      return colors.outlineVariant;
     }
 
     Widget? trailingIcon(String key) {
       if (!hasAnswered.value) return null;
       if (key == mcq.correctOption) {
-        return const Icon(Icons.check_circle, color: Colors.green, size: 22);
+        return Icon(Icons.check_circle, color: colors.tertiary);
       }
       if (key == selected.value) {
-        return const Icon(Icons.cancel, color: Colors.red, size: 22);
+        return Icon(Icons.cancel, color: colors.error);
       }
       return null;
     }
@@ -68,27 +70,29 @@ class McqSlideWidget extends HookWidget {
         children: [
           // Badge
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: theme.colorScheme.secondaryContainer,
+              color: colors.secondaryContainer,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               'Multiple Choice',
-              style: TextStyle(
-                color: theme.colorScheme.onSecondaryContainer,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: colors.onSecondaryContainer,
                 fontWeight: FontWeight.w600,
-                fontSize: 12,
               ),
             ),
           ),
+
           const SizedBox(height: 16),
 
-          // Question card
+          // Question
           Card(
             elevation: 0,
-            color: theme.colorScheme.surfaceContainerLow,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            color: colors.surfaceContainerLow,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: MarkdownBody(
@@ -98,18 +102,22 @@ class McqSlideWidget extends HookWidget {
                   p: theme.textTheme.titleMedium?.copyWith(height: 1.5),
                   code: theme.textTheme.bodyMedium?.copyWith(
                     fontFamily: 'monospace',
-                    backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                    backgroundColor: colors.surfaceContainerHighest,
                   ),
                 ),
               ),
             ),
           ),
+
           const SizedBox(height: 20),
 
           Text(
-            'Select the best answer:',
-            style: theme.textTheme.labelLarge?.copyWith(color: Colors.grey),
+            'Select the best answer',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: colors.onSurfaceVariant,
+            ),
           ),
+
           const SizedBox(height: 12),
 
           // Options
@@ -121,82 +129,103 @@ class McqSlideWidget extends HookWidget {
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: GestureDetector(
-                onTap: () => selectOption(key),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  decoration: BoxDecoration(
-                    color: cardColor(key),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: borderColor(key), width: 2),
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 14,
-                        backgroundColor: borderColor(key).withValues(alpha: 0.15),
-                        child: Text(
-                          label,
-                          style: TextStyle(
-                            color: borderColor(key),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => selectOption(key),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: cardColor(key),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: borderColor(key),
+                        width: 2,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 14,
+                          backgroundColor:
+                              borderColor(key).withOpacity(0.15),
+                          child: Text(
+                            label,
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: borderColor(key),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(text, style: theme.textTheme.bodyLarge),
-                      ),
-                      ?trail,
-                    ],
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            text,
+                            style: theme.textTheme.bodyLarge,
+                          ),
+                        ),
+                        if (trail != null) trail,
+                      ],
+                    ),
                   ),
                 ),
               ),
             );
           }),
 
-          // Explanation panel (animates in after answering)
+          // Explanation
           if (hasAnswered.value)
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: isCorrect ? Colors.green.shade50 : Colors.orange.shade50,
+                color: isCorrect
+                    ? colors.tertiaryContainer
+                    : colors.secondaryContainer,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: isCorrect ? Colors.green.shade400 : Colors.orange.shade400,
+                  color: isCorrect
+                      ? colors.tertiary
+                      : colors.secondary,
                 ),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Icon(
-                      isCorrect ? Icons.emoji_events : Icons.info_outline,
-                      color: isCorrect ? Colors.green.shade700 : Colors.orange.shade700,
-                      size: 22,
-                    ),
+                  Icon(
+                    isCorrect
+                        ? Icons.emoji_events
+                        : Icons.info_outline,
+                    color: isCorrect
+                        ? colors.tertiary
+                        : colors.secondary,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
                       children: [
                         Text(
                           isCorrect ? 'Correct! 🎉' : 'Not quite!',
-                          style: TextStyle(
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: isCorrect
+                                ? colors.tertiary
+                                : colors.secondary,
                             fontWeight: FontWeight.bold,
-                            color: isCorrect ? Colors.green.shade700 : Colors.orange.shade700,
                           ),
                         ),
                         const SizedBox(height: 6),
                         MarkdownBody(
                           data: mcq.explanationMd,
-                          styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
-                            p: theme.textTheme.bodyMedium?.copyWith(height: 1.4),
+                          styleSheet:
+                              MarkdownStyleSheet.fromTheme(theme)
+                                  .copyWith(
+                            p: theme.textTheme.bodyMedium
+                                ?.copyWith(height: 1.4),
                           ),
                         ),
                       ],

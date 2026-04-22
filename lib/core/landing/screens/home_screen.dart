@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:nexus/core/routes/app_routes.dart';
 import 'package:nexus/core/landing/widgets/home_skeleton.dart';
 import 'package:nexus/features/auth/data/riverpod/auth_provider.dart';
 import 'package:nexus/features/content/data/riverpod/content_provider.dart';
@@ -59,21 +58,15 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // ── Subjects header ───────────────────────────────────────
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Subjects',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: () => const SubjectsRoute().push(context),
-                child: const Text('See All'),
-              ),
-            ],
+          Text(
+            'Subjects',
+            // textWidthBasis: ,
+            textAlign: TextAlign.left,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
+
           const SizedBox(height: 8),
 
           // ── Subjects grid ─────────────────────────────────────────

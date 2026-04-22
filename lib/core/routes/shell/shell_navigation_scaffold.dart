@@ -52,11 +52,12 @@ class ShellNavigationScaffold extends StatelessWidget {
       body: child,
       bottomNavigationBar: ConvexAppBar(
         height: 60,
-        top: -10,
+        top: -5,
         backgroundColor: colorScheme.surfaceContainer,
         activeColor: colorScheme.primary,
         color: colorScheme.onSurfaceVariant,
         initialActiveIndex: currentIndex,
+        // curveSize: 10,
         onTap: (index) {
           final target = _paths[index];
           if (target != location) {
