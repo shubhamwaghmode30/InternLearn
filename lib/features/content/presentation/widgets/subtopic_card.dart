@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexus/core/routes/app_routes.dart';
+import 'package:nexus/core/routes/slides/slide_routes.dart';
 import 'package:nexus/features/content/data/models/subtopic.dart';
 
 class SubtopicCard extends StatelessWidget {

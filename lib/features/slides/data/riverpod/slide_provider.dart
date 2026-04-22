@@ -1,7 +1,7 @@
-import 'package:nexus/features/content/data/models/slides/slide.dart';
-import 'package:nexus/features/content/data/models/slides/slide_match.dart';
-import 'package:nexus/features/content/data/models/slides/slide_mcq.dart';
-import 'package:nexus/features/content/services/slide_service.dart';
+import 'package:nexus/features/slides/data/models/slide.dart';
+import 'package:nexus/features/slides/data/models/slide_match.dart';
+import 'package:nexus/features/slides/data/models/slide_mcq.dart';
+import 'package:nexus/features/slides/services/slide_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'slide_provider.g.dart';

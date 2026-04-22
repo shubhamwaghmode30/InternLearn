@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:nexus/features/content/data/models/slides/slide.dart';
-import 'package:nexus/features/content/data/models/slides/slide_match.dart';
-import 'package:nexus/features/content/data/models/slides/slide_mcq.dart';
+import 'package:nexus/features/slides/data/models/slide.dart';
+import 'package:nexus/features/slides/data/models/slide_match.dart';
+import 'package:nexus/features/slides/data/models/slide_mcq.dart';
 import 'package:nexus/features/content/data/riverpod/progress_provider.dart';
-import 'package:nexus/features/content/data/riverpod/slide_provider.dart';
-import 'package:nexus/features/content/presentation/widgets/slides/content_slide.dart';
-import 'package:nexus/features/content/presentation/widgets/slides/match_slide.dart';
-import 'package:nexus/features/content/presentation/widgets/slides/mcq_slide.dart';
-import 'package:nexus/features/content/presentation/widgets/slides/segmented_progress.dart';
+import 'package:nexus/features/slides/data/riverpod/slide_provider.dart';
+import 'package:nexus/features/slides/presentation/widgets/content_slide.dart';
+import 'package:nexus/features/slides/presentation/widgets/match_slide.dart';
+import 'package:nexus/features/slides/presentation/widgets/mcq_slide.dart';
+import 'package:nexus/features/slides/presentation/widgets/segmented_progress.dart';
 
 sealed class _SlideEntry {
   int get order;
@@ -256,6 +256,7 @@ class SlideViewerBody extends HookConsumerWidget {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(msg)));
+          
           context.pop();
         })
         .whenComplete(onFinish);

@@ -1,6 +1,6 @@
-import 'package:nexus/features/content/data/models/slides/slide.dart';
-import 'package:nexus/features/content/data/models/slides/slide_match.dart';
-import 'package:nexus/features/content/data/models/slides/slide_mcq.dart';
+import 'package:nexus/features/slides/data/models/slide.dart';
+import 'package:nexus/features/slides/data/models/slide_match.dart';
+import 'package:nexus/features/slides/data/models/slide_mcq.dart';
 import 'package:nexus/core/singleton.dart';
 
 class SlideService {

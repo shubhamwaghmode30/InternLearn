@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:nexus/features/content/data/models/slides/slide.dart';
+import 'package:nexus/features/slides/data/models/slide.dart';
 
 class ContentSlideWidget extends StatelessWidget {
   final Slide slide;

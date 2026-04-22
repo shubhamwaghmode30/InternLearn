@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexus/features/content/data/models/slides/slide_match.dart';
+import 'package:nexus/features/slides/data/models/slide_match.dart';
 
 class MatchSlideColumns extends StatelessWidget {
   final ThemeData theme;

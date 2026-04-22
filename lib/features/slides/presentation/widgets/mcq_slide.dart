@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:nexus/features/content/data/models/slides/slide_mcq.dart';
+import 'package:nexus/features/slides/data/models/slide_mcq.dart';
 
 class McqSlideWidget extends HookWidget {
   final SlideMcq mcq;
@@ -151,7 +151,7 @@ class McqSlideWidget extends HookWidget {
                         CircleAvatar(
                           radius: 14,
                           backgroundColor:
-                              borderColor(key).withOpacity(0.15),
+                              borderColor(key).withAlpha(50),
                           child: Text(
                             label,
                             style: theme.textTheme.labelMedium?.copyWith(
@@ -167,7 +167,7 @@ class McqSlideWidget extends HookWidget {
                             style: theme.textTheme.bodyLarge,
                           ),
                         ),
-                        if (trail != null) trail,
+                        ?trail,
                       ],
                     ),
                   ),

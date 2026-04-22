@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nexus/core/widgets/list_skeleton.dart';
-import 'package:nexus/features/content/data/riverpod/slide_provider.dart';
-import 'package:nexus/features/content/presentation/widgets/slides/slide_viewer_body.dart';
+import 'package:nexus/features/slides/data/riverpod/slide_provider.dart';
+import 'package:nexus/features/slides/presentation/widgets/slide_viewer_body.dart';
 
 
 class SlideViewerScreen extends HookConsumerWidget {

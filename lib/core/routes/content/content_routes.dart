@@ -5,7 +5,6 @@ import 'package:nexus/features/content/data/models/subject.dart';
 import 'package:nexus/features/content/presentation/screens/chapters_screen.dart';
 import 'package:nexus/features/content/presentation/screens/subtopics_screen.dart';
 import 'package:nexus/features/content/presentation/screens/topics_screen.dart';
-import 'package:nexus/features/content/presentation/screens/slide_viewer_screen.dart';
 
 part 'content_routes.g.dart';
 
@@ -50,21 +49,3 @@ class SubtopicsRoute extends GoRouteData with $SubtopicsRoute {
   }
 }
 
-@TypedGoRoute<SlideViewerRoute>(path: '/slides/:subtopicId')
-class SlideViewerRoute extends GoRouteData with $SlideViewerRoute {
-  const SlideViewerRoute({
-    required this.subtopicId,
-    required this.subtopicTitle,
-  });
-
-  final int subtopicId;
-  final String subtopicTitle;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return SlideViewerScreen(
-      subtopicId: subtopicId,
-      subtopicTitle: subtopicTitle,
-    );
-  }
-}

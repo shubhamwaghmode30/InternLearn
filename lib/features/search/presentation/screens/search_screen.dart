@@ -3,6 +3,7 @@ import 'package:flutter_debouncer/flutter_debouncer.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nexus/core/routes/app_routes.dart';
+import 'package:nexus/core/routes/slides/slide_routes.dart';
 import 'package:nexus/core/widgets/list_skeleton.dart';
 import 'package:nexus/features/search/data/models/search_result_item.dart';
 import 'package:nexus/features/search/data/riverpod/search_provider.dart';

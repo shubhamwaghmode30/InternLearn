@@ -27,8 +27,8 @@ class SegmentedProgress extends StatelessWidget {
           final color = isDone
               ? colors.primary
               : isCurrent
-                  ? colors.primary.withOpacity(0.5)
-                  : colors.onSurfaceVariant.withOpacity(0.25);
+                  ? colors.primary.withAlpha(128)
+                  : colors.onSurfaceVariant.withAlpha(64);
 
           return Expanded(
             child: AnimatedContainer(
