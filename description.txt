@@ -130,6 +130,8 @@ Schema reference:
 
 - Profile:
   Profile display/edit flows, avatar picker, theme and notification settings.
+  Edit profile save now persists both display name and avatar seed.
+  Profile edit and avatar picker screens use hook-based local state management.
 
 ================================================================================
 7. DEVELOPMENT COMMANDS

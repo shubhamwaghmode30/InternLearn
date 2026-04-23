@@ -244,7 +244,12 @@ If errors persist, check imports and part files in core/routes.
 - Notification settings are local-device preferences only and do not trigger a server-side push pipeline.
 - Theme preference is stored per device and does not currently sync across devices.
 - Slide completion/progress updates depend on Supabase RPC availability and network connectivity; there is no offline sync queue.
-- Some profile flows are still evolving; avatar selection UI exists, but profile persistence behavior should be validated end-to-end in your environment.
+
+## Profile Flow Notes
+
+- Profile edit and avatar picker presentation screens now use HookConsumerWidget with flutter_hooks state/lifecycle handling.
+- Edit Profile save persists both display name and selected avatar seed.
+- Avatar picker still supports random seed shuffling and applies the picked avatar through profile update + provider invalidation.
 
 ## Notes
 
