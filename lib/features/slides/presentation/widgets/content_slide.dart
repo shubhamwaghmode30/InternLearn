@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:nexus/core/widgets/app_chip.dart';
 import 'package:nexus/features/slides/data/models/slide.dart';
 
 class ContentSlideWidget extends StatelessWidget {
@@ -16,21 +17,11 @@ class ContentSlideWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Slide type badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              'Lesson',
-              style: TextStyle(
-                color: theme.colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-              ),
-            ),
+          AppChip(
+            label: "Lesson",
+            color: theme.colorScheme.primary,
+            textColor: theme.colorScheme.onPrimary,
+            bgColor: theme.colorScheme.primaryContainer,
           ),
           const SizedBox(height: 16),
 
@@ -114,9 +105,7 @@ class ContentSlideWidget extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.secondary.withAlpha(100),
+                  color: Theme.of(context).colorScheme.secondary.withAlpha(100),
                 ),
               ),
               padding: const EdgeInsets.all(14),

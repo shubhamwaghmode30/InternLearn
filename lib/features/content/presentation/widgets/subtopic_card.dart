@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexus/core/routes/slides/slide_routes.dart';
+import 'package:nexus/core/widgets/app_chip.dart';
 import 'package:nexus/features/content/data/models/subtopic.dart';
 
 class SubtopicCard extends StatelessWidget {
@@ -43,24 +44,18 @@ class SubtopicCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 34,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: laneColor.withValues(alpha: 0.15),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '${index + 1}',
-                      style: TextStyle(
-                        color: laneColor,
-                        fontWeight: FontWeight.w800,
-                      ),
+                CircleAvatar(
+                  radius: 17,
+                  backgroundColor: laneColor.withValues(alpha: 0.15),
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(
+                      color: laneColor,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+               const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     subtopic.title,
@@ -78,25 +73,13 @@ class SubtopicCard extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: [
-                _chip(
-                  context,
-                  icon: Icons.whatshot_rounded,
+                AppChip(
                   label:
                       '+${subtopic.xpReward > 0 ? subtopic.xpReward : 12 + index} XP',
                   color: Colors.deepOrange,
                 ),
-                _chip(
-                  context,
-                  icon: Icons.schedule_rounded,
-                  label: '${4 + (index % 3)} min',
-                  color: laneColor,
-                ),
-                _chip(
-                  context,
-                  icon: Icons.star_rounded,
-                  label: 'Challenge',
-                  color: Colors.amber.shade800,
-                ),
+                AppChip(label: '${4 + (index % 3)} min', color: laneColor),
+                AppChip(label: 'Challenge', color: Colors.amber.shade800),
               ],
             ),
             const SizedBox(height: 12),
@@ -150,35 +133,6 @@ class SubtopicCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _chip(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 13, color: color),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
       ),
     );
   }

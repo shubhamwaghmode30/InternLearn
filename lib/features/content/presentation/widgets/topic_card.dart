@@ -26,9 +26,7 @@ class TopicCard extends StatelessWidget {
         ? theme.colorScheme.secondary
         : theme.colorScheme.primary;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
+    return  InkWell(
         borderRadius: BorderRadius.circular(18),
         onTap: () => SubtopicsRoute(
           $extra: SubtopicsNavData(
@@ -49,20 +47,14 @@ class TopicCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: accent.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: TextStyle(
-                          color: accent,
-                          fontWeight: FontWeight.w800,
-                        ),
+                  CircleAvatar(
+                    radius: 19,
+                    backgroundColor: accent.withValues(alpha: 0.15),
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(
+                        color: accent,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
@@ -114,7 +106,6 @@ class TopicCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

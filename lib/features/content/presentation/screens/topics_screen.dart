@@ -4,6 +4,7 @@ import 'package:nexus/core/widgets/list_skeleton.dart';
 import 'package:nexus/features/content/data/models/chapter.dart';
 import 'package:nexus/features/content/data/models/subject.dart';
 import 'package:nexus/features/content/data/riverpod/content_provider.dart';
+import 'package:nexus/features/content/presentation/widgets/topics_header.dart';
 import 'package:nexus/features/progress/data/riverpod/progress_provider.dart';
 import 'package:nexus/features/content/presentation/widgets/topic_card.dart';
 
@@ -40,7 +41,7 @@ class TopicsScreen extends ConsumerWidget {
               itemCount: topics.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return _TopicsHeader(
+                  return TopicsHeader(
                     chapterName: chapter.name,
                     topicCount: topics.length,
                   );
@@ -80,48 +81,3 @@ class TopicsScreen extends ConsumerWidget {
     );
   }
 }
-
-class _TopicsHeader extends StatelessWidget {
-  final String chapterName;
-  final int topicCount;
-
-  const _TopicsHeader({required this.chapterName, required this.topicCount});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.7),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.flag_circle_rounded, size: 34),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  chapterName,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '$topicCount missions in this chapter',
-                  style: theme.textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-

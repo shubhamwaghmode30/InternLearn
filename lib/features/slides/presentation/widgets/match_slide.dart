@@ -3,11 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:nexus/features/slides/data/models/slide_match.dart';
-import 'package:nexus/features/slides/presentation/widgets/components/match_slide_badge.dart';
 import 'package:nexus/features/slides/presentation/widgets/components/match_slide_columns.dart';
 import 'package:nexus/features/slides/presentation/widgets/components/match_slide_completion_section.dart';
-import 'package:nexus/features/slides/presentation/widgets/components/match_slide_hint_text.dart';
-import 'package:nexus/features/slides/presentation/widgets/components/match_slide_question_card.dart';
 
 class MatchSlideWidget extends HookWidget {
   final SlideMatch match;
@@ -23,14 +20,12 @@ class MatchSlideWidget extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Shuffle right items exactly once
     final shuffledRight = useMemoized(() {
       final list = [...match.rightItems];
       list.shuffle();
       return list;
     }, const []);
 
-    // Build correct lookup: leftId → rightId
     final correctMap = useMemoized(
       () => {for (final p in match.correctPairs) p.leftId: p.rightId},
       const [],
@@ -42,6 +37,7 @@ class MatchSlideWidget extends HookWidget {
 
     // Timer ref so we can cancel if widget disposes
     final wrongTimer = useRef<Timer?>(null);
+
     useEffect(
       () =>
           () => wrongTimer.value?.cancel(),
@@ -126,15 +122,45 @@ class MatchSlideWidget extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MatchSlideBadge(theme: theme),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.tertiaryContainer,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              'Match the Pairs',
+              style: TextStyle(
+                color: theme.colorScheme.onTertiaryContainer,
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
 
-          MatchSlideQuestionCard(theme: theme, question: match.question),
-
+          Card(
+            elevation: 0,
+            color: theme.colorScheme.surfaceContainerLow,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Text(match.question, style: theme.textTheme.titleMedium),
+            ),
+          ),
           const SizedBox(height: 8),
-          MatchSlideHintText(
-            theme: theme,
-            hasSelectedLeft: selectedLeft.value != null,
+          Text(
+            selectedLeft.value != null
+                ? 'Now tap the matching item on the right →'
+                : 'Tap a left item to select it, then tap its match.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: selectedLeft.value != null
+                  ? theme.colorScheme.primary
+                  : Colors.grey,
+              fontStyle: FontStyle.italic,
+            ),
           ),
           const SizedBox(height: 16),
 

@@ -1,6 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 /// The [MainAppTheme] defines light and dark themes for the app.
 ///
 /// Theme setup for FlexColorScheme package v8.
@@ -41,6 +42,8 @@ abstract final class MainAppTheme {
       cardBackgroundSchemeColor: SchemeColor.onPrimary,
       alignedDropdown: true,
       navigationRailUseIndicator: true,
+      chipRadius: 40.0,
+      chipPadding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
     ),
     // Direct ThemeData properties.
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
@@ -64,6 +67,8 @@ abstract final class MainAppTheme {
       cardBackgroundSchemeColor: SchemeColor.onPrimary,
       alignedDropdown: true,
       navigationRailUseIndicator: true,
+      chipRadius: 40.0,
+      chipPadding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
     ),
     // Direct ThemeData properties.
     visualDensity: FlexColorScheme.comfortablePlatformDensity,

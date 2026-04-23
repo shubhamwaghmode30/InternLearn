@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexus/core/routes/app_routes.dart';
+import 'package:nexus/core/widgets/app_chip.dart';
 import 'package:nexus/features/content/data/models/chapter.dart';
 import 'package:nexus/features/content/data/models/subject.dart';
 
@@ -53,70 +54,37 @@ class ChapterCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: badgeColor.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    chapter.chapterNumber.toString(),
-                    style: TextStyle(
-                      color: badgeColor,
-                      fontWeight: FontWeight.w800,
-                    ),
+              CircleAvatar(
+                radius: 26,
+                backgroundColor: badgeColor.withValues(alpha: 0.15),
+                child: Text(
+                  chapter.chapterNumber.toString(),
+                  style: TextStyle(
+                    color: badgeColor,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
               const SizedBox(width: 12),
+         
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: badgeColor.withValues(alpha: 0.14),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Text(
-                            'Level ${index + 1}',
-                            style: TextStyle(
-                              color: badgeColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 11,
-                            ),
-                          ),
+                        AppChip(
+                          label: 'Level ${index + 1}',
+                          color: badgeColor,
+                          isSmall: true,
                         ),
+
                         const SizedBox(width: 8),
                         if (isCompleted)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green.withValues(alpha: 0.14),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: const Text(
-                              'Completed',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 11,
-                              ),
-                            ),
-                          )
+                          AppChip(label: "Completed", color: Colors.green)
                         else
                           const SizedBox.shrink(),
                         if (isCompleted) const SizedBox(width: 8),
@@ -145,7 +113,7 @@ class ChapterCard extends StatelessWidget {
                     Text(
                       isCompleted
                           ? 'Chapter conquered. You unlocked the reward XP.'
-                          : 'Complete this chapter to unlock the next quest path.',
+                          : 'Complete this chapter and clear Your doubts.',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
